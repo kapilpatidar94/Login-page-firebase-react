@@ -11,7 +11,7 @@ const App = () => {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [hasAccount, setHasAccount] = useState(false);
-
+  const [phone, setPhone] = useState("");
 
   const clearInputs = () => {
     setEmail("");
@@ -23,8 +23,8 @@ const App = () => {
     setPasswordError("");
   }
 
-
   const handleLogin = () => {
+    console.log(email,phone);
     clearErrors();
     fire
       .auth()
@@ -64,7 +64,7 @@ const App = () => {
   const authListener = () => {
     fire.auth().onAuthStateChanged(user => {
       if (user) {
-        clearInputs();
+        // clearInputs();
         setUser(user);
       } else {
         setUser("");
@@ -76,10 +76,17 @@ const App = () => {
     authListener();
   }, []);
 
+
+
+  const phoneLogin = () => {
+    clearErrors();
+    console.log("phonenumber",phone);
+  };
+
   return (
     <div className="App">
       {user ? (
-        <Hero  />
+        <Hero email={email} phone={phone} />
       ) : (
           <Login
             email={email}
@@ -92,6 +99,10 @@ const App = () => {
             setHasAccount={setHasAccount}
             emailError={emailError}
             passwordError={passwordError}
+            clearInputs={clearInputs}
+            phoneLogin={phoneLogin}
+            phone={phone}
+            setPhone={setPhone}
           />
         )}
 
@@ -99,5 +110,6 @@ const App = () => {
     </div>
   );
 }
+
 
 export default App;
